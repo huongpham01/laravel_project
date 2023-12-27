@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
 
-class LoginRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +24,16 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'password' => 'required|max:7'
+            'password' => 'required|string|max:7|confirmed'
         ];
     }
 
     public function messages()
     {
         return [
+            'name.required' => ':attribute is empty!',
             'email.required' => ':attribute is empty',
             'password.required' => ':attribute is empty',
             'password.max' => ':attribute is longer than 7 characters'
@@ -46,20 +47,4 @@ class LoginRequest extends FormRequest
             'password' => 'Password'
         ];
     }
-
-
-
-    // public function after(): array
-    // {
-    //     return [
-    //         function (Validator $validator) {
-    //             if ($this->somethingElseIsInvalid()) {
-    //                 $validator->errors()->add(
-    //                     'field',
-    //                     'Something is wrong with this field!'
-    //                 );
-    //             }
-    //         }
-    //     ];
-    // }
 }
