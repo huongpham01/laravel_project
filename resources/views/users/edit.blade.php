@@ -10,13 +10,13 @@
         <div class="register-logo">
             <a href="#"><b>Edit</b></a>
         </div>
-        {{-- @include('auth.alert') --}}
         <div class="card">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Edit user {{ $user->name }} information</p>
 
-                <form action="" method="post">
+                <form action="{{ route('user.update', ['id' => $user->id]) }}" method="post">
                     @csrf
+                    @method('PUT')
                     <div class="input-group mb-3">
                         <input type="text" name="name" value="{{ $user->name }}" class="form-control"
                             placeholder="Name">
@@ -40,17 +40,19 @@
                             </div>
                         </div>
                     </div>
+                    <span style="color: red">
+                        @error('email')
+                            {{ $message }}
+                        @enderror
+                    </span>
                     <div class="row">
-                        <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Edit</button>
+                            <button type="submit">Edit</button>
                         </div>
-                        <!-- /.col -->
                     </div>
                 </form>
-
             </div>
-        </div><!-- /.card -->
+        </div>
     </div>
 
     @include('layout.footer')

@@ -17,13 +17,15 @@ Route::prefix('users')
     Route::get('/logout', [AuthController::class, 'logout'])->name('get.logout');
 
     // Edit user route
-    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('get.edit');
-    Route::post('/{id}/edit', [UserController::class, 'editUser'])->name('post.edit');
+    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
     //Update user after edit
     Route::put('/{id}', [UserController::class, 'update'])->name('update');
 
     // Delete user route
-    Route::delete('/{id}', [AuthController::class, 'destroy'])->name('delete');
+    Route::delete('/{id}', [UserController::class, 'delete'])->name('delete');
+
+    //Sort column
+    Route::get('/sort', [UserController::class, 'sort'])->name('sort');
 
     //DASHBOARD
     Route::get('/', [UserController::class, 'index'])->name('index');

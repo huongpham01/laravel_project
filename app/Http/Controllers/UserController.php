@@ -23,6 +23,8 @@ class UserController extends Controller
         return view('users.dashboard', compact('users'));
         // return view('auth.users.dashboard', ['users' => $users];
     }
+
+    // EDIT name, email
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
@@ -34,6 +36,7 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
+    // UPDATE infor user after edit
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
@@ -49,6 +52,26 @@ class UserController extends Controller
         ]);
 
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully!');
+        return redirect()->route('user.index')->with('success', 'User with id = ' . $user->id . ' was updated successfully!');
+    }
+
+    //DELETE 
+
+    public function delete(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            abort(404);
+        }
+        $user->delete();
+
+        return redirect()->route('user.index')->with('success', 'User with id = ' . $user->id . ' was deleted successfully!');
+    }
+
+    // SORT column
+    public function sort(Request $request)
+    {
+        $users = User::sortable()->paginate(10);
+        return view('user.index', compact('users'));
     }
 }

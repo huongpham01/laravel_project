@@ -10,16 +10,21 @@ class UserService
   {
     $params = collect($params);
     $search = $params->get('search', '');
-    //Eloquent ORM
+    $perPage = $params->get('per_page', 10);
+    $sortField = $params->get('sort_field', 'id');
+    $sortDirection = $params->get('sort_direction', 'asc');
 
-    // if (empty($search)) {
-    //   $users = User::all();
-    // } else {
-    //   $users = User::where('email', 'like', '%' . $search . '%')
-    //     ->orWhere('name', 'like', '%' . $search . '%')
-    //     ->get();
-    // }
+    $query = User::query();
 
-    return User::search($search);
+    if (!empty($search)) {
+      $query->where(function ($q) use ($search) {
+        $q->where('email', 'like', '%' . $search . '%')
+          ->orWhere('name', 'like', '%' . $search . '%');
+      });
+    }
+    $query->orderBy($sortField, $sortDirection);
+
+    // Get paginated results
+    return $query->paginate($perPage);
   }
 }
