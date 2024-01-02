@@ -6,13 +6,15 @@ use App\Models\User;
 
 class UserService
 {
+  private $perPage = 10;
+
   public function index(array $params = [])
   {
     $params = collect($params);
     $search = $params->get('search', '');
-    $perPage = $params->get('per_page', 10);
-    $sortField = $params->get('sort_field', 'id');
-    $sortDirection = $params->get('sort_direction', 'asc');
+    $currentPage = $params->get('page', 1);
+    $sort = $params->get('sort', 'id');
+    $direction = $params->get('direction', 'asc');
 
     $query = User::query();
 
@@ -22,9 +24,9 @@ class UserService
           ->orWhere('name', 'like', '%' . $search . '%');
       });
     }
-    $query->orderBy($sortField, $sortDirection);
+    $query->orderBy($sort, $direction);
 
     // Get paginated results
-    return $query->paginate($perPage);
+    return $query->paginate($this->perPage, ['*'], 'page', $currentPage);
   }
 }

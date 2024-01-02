@@ -38,6 +38,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    // public $sortable = ['id', 'name', 'email', 'status', 'created_at'];
+
+
     /**
      * The attributes that should be cast.
      *
@@ -54,17 +57,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return config('const.tables.users.status_names')[$this->status] ?? null;
     }
 
-    public static function search(string $search)
+    public static function search(string|array $search, string $sort, string $​direction)
     {
-        //Query Builder
+        // list($key, $condition, $value) = $search;
+        // foreach ($search as $key => $value) {
+        //     $query->where($key, 'LIKE', '%' . $value . '%');
+        // }
+
+        // Query Builder
         $query = self::query();
+
         if (!empty($search)) {
             $query->where('email', 'LIKE', '%' . $search . '%');
             $query->orWhere('name', 'LIKE', '%' . $search . '%');
         }
-        $query->orderBy('id');
+        $query->orderBy($sort, $​direction);
         return $query->get();
     }
-
-    // public $sortable = ['id', 'name', 'email', 'status', 'created_at'];
 }

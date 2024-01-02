@@ -50,8 +50,6 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
         ]);
-
-
         return redirect()->route('user.index')->with('success', 'User with id = ' . $user->id . ' was updated successfully!');
     }
 
