@@ -2,7 +2,6 @@
         <html lang="en">
 
         <head>
-            <!-- /.card-header -->
             @include('layout.header')
         </head>
 

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slide_url');
-            $table->string('title');
-            $table->string('content');
-            $table->tinyInteger('status');
+            $table->integer('user_id'); // Assuming a foreign key to users table
+            $table->string('title', 256);
+            $table->text('content');
+            $table->string('category', 100);
+            $table->string('image', 500);
+            $table->boolean('status')->default(0); // non-display
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('reviews');
     }
 };

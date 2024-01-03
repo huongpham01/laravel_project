@@ -3,7 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Users\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\HomeController;
 
+// HOME PAGE
+Route::get("/home", [HomeController::class, "index"])->name('home.index');
+
+// USER
 Route::prefix('users')
   ->name('user.')
   ->group(function () {
@@ -29,4 +35,15 @@ Route::prefix('users')
 
     //DASHBOARD
     Route::get('/', [UserController::class, 'index'])->name('index');
+  });
+
+// NEWS
+Route::prefix('reviews')
+  ->name('review.')
+  ->group(function () {
+    Route::get('/', [ReviewController::class, 'index'])->name('index');
+    Route::get('/create', [ReviewController::class, 'create'])->name('get.create');
+    Route::post('/create', [ReviewController::class, 'createReview'])->name('post.create');
+    Route::get('/{id}/edit', [ReviewController::class, 'edit'])->name('edit');
+    Route::delete('/{id}', [ReviewController::class, 'delete'])->name('delete');
   });

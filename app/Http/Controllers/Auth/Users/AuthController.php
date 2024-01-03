@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+
+    // get login form
     public function login()
     {
         return view('auth.login', [
@@ -20,6 +22,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // post login
     public function loginUser(LoginRequest $request)
     {
         // User login before, return text
