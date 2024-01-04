@@ -87,7 +87,7 @@
                                     <th>@sortablelink('content', 'Content')</th>
                                     <th>@sortablelink('category', 'Book category')</th>
                                     <th>@sortablelink('image', 'Image')</th>
-                                    <th>@sortablelink('created_by', 'Author')</th>
+                                    {{-- <th>@sortablelink('created_by', 'Created by')</th> --}}
                                     <th>@sortablelink('status', 'Status')</th>
                                     <th>Action</th>
                                 </tr>
@@ -98,13 +98,20 @@
                                         <td>{{ $review->id }}</td>
                                         <td>{{ $review->title }}</td>
                                         <td>{{ $review->content }}</td>
-                                        <td>{{ $review->category }}</td>
-                                        <td>{{ $review->image }}</td>
-                                        <td>{{ $review->created_by }}</td>
+                                        <td>{{ $review->category == 'default' ? 'Default' : $review->category }}</td>
+                                        <td>
+                                            @if ($review->image)
+                                                <img src="{{ asset('storage/images/' . $review->image) }}"
+                                                    style="height: 50px;width:100px;">
+                                            @else
+                                                <span>No image found!</span>
+                                            @endif
+                                        </td>
+                                        {{-- <td>{{ $review->user_id }}</td> --}}
                                         <td>{{ $review->status == 1 ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <!-- View Review -->
-                                            <a href="{{ route('review.show', ['id' => $review->id]) }}"
+                                            <a href="{{ route('review.view', ['id' => $review->id]) }}"
                                                 class="btn btn-sm btn-primary">
                                                 <i class="fas fa-eye"></i> View
                                             </a>
@@ -113,8 +120,8 @@
                                                 class="btn btn-sm btn-info">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <!-- Delete Review -->
-                                            <form action="{{ route('review.destroy', ['id' => $review->id]) }}"
+                                            <!-- Delete -->
+                                            <form action="{{ route('review.delete', ['id' => $review->id]) }}"
                                                 method="post" style="display:inline;">
                                                 @csrf
                                                 @method('delete')

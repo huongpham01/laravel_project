@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id'); // Assuming a foreign key to users table
+            $table->foreignId('user_id')->constrained();
             $table->string('title', 256);
             $table->text('content');
-            $table->string('category', 100);
-            $table->string('image', 500);
+            $table->string('category', 100)->default('default');
+            $table->string('image')->nullable();
             $table->boolean('status')->default(0); // non-display
             $table->timestamps();
         });

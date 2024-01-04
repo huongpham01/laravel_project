@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateReviewRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateReviewRequest;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
+    public $reviews;
     public function index(Request $request)
     {
-        $reviews = Review::all();
-        return view('reviews.index', compact('reviews'));
+        $reviews = Review::with('user')->get();
+        return view('reviews.index', ['reviews' => $reviews]);
     }
 
     // CREATE review 
@@ -22,29 +25,55 @@ class ReviewController extends Controller
         return view('reviews.create');
     }
 
-    public function createReview(Request $request)
+    public function createReview(CreateReviewRequest $request)
     {
-        dd("");
-        $review = new Review([
+        $user = User::all();
+        $fileName = time() . '.' . $request->image->extension();
+        $request->image->storeAs('public/images', $fileName);
+        $reviews = new Review([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-            'image' => $request->input('image')
+            'user_id' => $user->id,
+            'category' => $request->input('category') ?? 'default',
+            'image' => $fileName,
+            'status' => $request->has('status') ? 1 : 0,
         ]);
-        $review->save();
+
+        $reviews->save();
 
         Session::flash('success', 'Review created successfully.');
-        return redirect()->route('review.index');
+        return redirect()->route('review.index', compact('user'));
+    }
+    public function view(Request $request)
+    {
+        $review = Review::with('user')->find($request->id);
+        return view('reviews.view', compact('review'));
     }
 
+    // UPLOAD IMAGE
+
+    public function imageUploadPost(Request $request)
+    {
+
+        $imageName = time() . '.' . $request->image->extension();
+
+        $request->image->move(public_path('images'), $imageName);
+
+        /* Store $imageName name in DATABASE from HERE */
+
+        return back()
+            ->with('success', 'You have successfully upload image.')
+            ->with('image', $imageName);
+    }
     // EDIT 
     public function edit(Request $request, $id)
     {
         $review = Review::find($id);
-        return view('review.edit', compact('review'));
+        return view('reviews.edit', compact('review'));
     }
 
     // UPDATE 
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateReviewRequest $request, $id)
     {
         $review = Review::find($id);
 
@@ -52,12 +81,29 @@ class ReviewController extends Controller
             abort(404);
         }
 
-        $review->update([
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-        ]);
+        // Check if a new image is provided in the request
+        if ($request->hasFile('image')) {
+            $fileName = time() . '.' . $request->image->extension();
 
-        return redirect()->route('review.index')->with('success', 'Review with id = ' . $review->id . ' was updated successfully!');
+            // Store the uploaded image in the 'public/images' directory
+            $request->image->storeAs('public/images', $fileName);
+
+            // Update the review with the new image
+            $review->update([
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'image' => $fileName,
+            ]);
+        } else {
+            // Update the review without changing the image
+            $review->update([
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+            ]);
+        }
+
+
+        return redirect()->route('review.view', ['id' => $review->id])->with('success', 'Review with id = ' . $review->id . ' was updated successfully!');
     }
 
 
@@ -72,5 +118,11 @@ class ReviewController extends Controller
         } else {
             abort(404);
         }
+    }
+    public function showReview($id)
+    {
+        $review = Review::find($id);
+
+        return view('reviews.view', ['reviews' => $review]);
     }
 }

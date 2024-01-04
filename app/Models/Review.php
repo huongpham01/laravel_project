@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
     protected $fillable = [
-        'review_id', 'slide_url', 'title', 'content', 'created_by', 'status'
+        'user_id', 'category', 'review_id', 'title', 'content', 'status', 'image'
     ];
 
-    public function reviewDetail()
+    public function user()
     {
-        return $this->hasOne(ReviewDetail::class);
+        return $this->belongsTo(User::class);
     }
 }

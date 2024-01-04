@@ -44,6 +44,10 @@ Route::prefix('reviews')
     Route::get('/', [ReviewController::class, 'index'])->name('index');
     Route::get('/create', [ReviewController::class, 'create'])->name('get.create');
     Route::post('/create', [ReviewController::class, 'createReview'])->name('post.create');
+    Route::post('/image-upload', [ReviewController::class, 'imageUploadPost'])->name('post.upload');
+    Route::get('/{id}/view', [ReviewController::class, 'view'])->name('view');
     Route::get('/{id}/edit', [ReviewController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [ReviewController::class, 'update'])->name('update');
+    // Route::post('/{id}/update', [ReviewController::class, 'update'])->name('update');
     Route::delete('/{id}', [ReviewController::class, 'delete'])->name('delete');
   });

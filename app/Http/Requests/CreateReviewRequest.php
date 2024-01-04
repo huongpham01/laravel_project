@@ -26,9 +26,8 @@ class CreateReviewRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
-            'image' => 'required|string|max:255',
-
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'required|in:Self-help,Detective,Foreign literature,Viet Nam literature',
         ];
     }
 

@@ -72,4 +72,9 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->orderBy($sort, $​direction);
         return $query->get();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

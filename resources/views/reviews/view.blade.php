@@ -2,18 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Create review</title>
+    <title>Review detail</title>
     @include('layout.header')
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0px">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('home.index') }}" class="nav-link">Home</a>
                 </li>
@@ -32,8 +30,8 @@
                     <div class="navbar-search-block">
                         <form class="form-inline">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" name="search" type="search"
-                                    placeholder="Search" aria-label="Search">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                                    aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-navbar" type="submit">
                                         <i class="fas fa-search"></i>
@@ -151,8 +149,6 @@
         </nav>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" style="margin-left: 0px">
             <!-- Content Header (Page header) -->
@@ -160,101 +156,133 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Review Add</h1>
+                            <h1>Review detail</h1>
                         </div>
                         <div class="col-sm-6">
                         </div>
-                    </div>
-                </div><!-- /.container-fluid -->
+                    </div><!-- /.container-fluid -->
             </section>
 
             <!-- Main content -->
             <section class="content">
-                <form method="POST" action="{{ route('review.post.create') }}" enctype="multipart/form-data">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @csrf
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6" style="flex: 100%; max-width: 100%">
-                            <div class="card card-primary">
+                        <div class="col-md-3">
+                            <a href="{{ route('review.index') }}" class="btn btn-primary btn-block mb-3">Back to
+                                Review list</a>
+
+                            <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">General</h3>
+                                    <h3 class="card-title">Functions</h3>
 
                                     <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            title="Collapse">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="inputName">Title</label>
-                                        <input type="text" name="title" id="inputName" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputDescription">Content</label>
-                                        <textarea id="inputDescription" name="content" class="form-control" rows="4"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputStatus">Book category</label>
-                                        <select id="inputStatus" name="category" class="form-control custom-select">
-                                            <option selected disabled>Select one</option>
-
-                                            @foreach (['Self-help', 'Detective', 'Foreign literature', 'Viet Nam literature'] as $category)
-                                                <option value="{{ $category }}">{{ $category }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputClientCompany">Image</label>
-                                        <input type="file" name="image" @error('image') is-invalid @enderror
-                                            id="inputClientCompany" class="form-control">
-                                        @error('image')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
+                                <div class="card-body p-0">
+                                    <ul class="nav nav-pills flex-column">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <img width="24" height="24"
+                                                    src="https://img.icons8.com/material-outlined/24/edit--v1.png"
+                                                    alt="edit--v1" /> Edit
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <img width="24" height="24"
+                                                    src="https://img.icons8.com/material-rounded/24/filled-trash.png"
+                                                    alt="filled-trash" /> Delete
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <a href="{{ route('review.index') }}" class="btn btn-secondary">Cancel</a>
+                        <!-- /.col -->
+                        <div class="col-md-9">
+                            <div class="card card-primary card-outline" style="height: 700px">
+                                <div class="card-header">
+                                    <h3 class="card-title">{{ $review->title }}</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <!-- /.mailbox-read-info -->
+                                    <div class="mailbox-controls with-border text-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-sm"
+                                                data-container="body" title="Delete">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-sm"
+                                                data-container="body" title="Reply">
+                                                <i class="fas fa-reply"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-sm"
+                                                data-container="body" title="Forward">
+                                                <i class="fas fa-share"></i>
+                                            </button>
+                                        </div>
+                                        <!-- /.btn-group -->
+                                        <button type="button" class="btn btn-default btn-sm" title="Print">
+                                            <i class="fas fa-print"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.mailbox-controls -->
+                                    <div class="mailbox-read-message">
+                                        <label for="content">Content:</label>
+                                        <p>{{ $review->content }}</p>
+                                    </div>
+                                    <div class="mailbox-read-message">
+                                        <label for="content">Image:</label><br>
+                                        <img src="{{ asset('storage/images/' . $review->image) }}" alt="Review Image"
+                                            style="height: 300px;width:350px;">
+                                    </div>
+                                    <div class="mailbox-read-message">
+                                        <label for="content">Author:</label>
+                                        <p>{{ $review->user->name }}</p>
+                                    </div>
 
-                            <input type="submit" name="create" value="Create new review"
-                                class="btn btn-success float-right">
 
+
+                                    <!-- /.mailbox-read-message -->
+                                </div>
+                                <!-- /.card-body -->
+                                <!-- /.card-footer -->
+                                <div class="card-footer">
+                                    <div class="float-right">
+                                        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i>
+                                            Previous</button>
+                                        <button type="button" class="btn btn-default"><i class="fas fa-share"></i>
+                                            Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
                         </div>
+                        <!-- /.card -->
                     </div>
-                </form>
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+        </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
     <!-- jQuery -->
     @include('layout.footer')
-</body>
 
 </html>
