@@ -183,7 +183,7 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6" style="flex: 100%; max-width: 100%">
-                            <div class="card card-primary">
+                            <div class="card card-primary" style="min-height: 700px">
                                 <div class="card-header">
                                     <h3 class="card-title">General</h3>
 
@@ -197,21 +197,31 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="inputName">Title</label>
-                                        <input type="text" name="title" id="inputName" class="form-control">
+                                        <input type="text" name="title" id="inputName" class="form-control"
+                                            value="{{ old('title') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="inputDescription">Content</label>
-                                        <textarea id="inputDescription" name="content" class="form-control" rows="4"></textarea>
+                                        <textarea id="inputDescription" name="content" class="form-control" rows="4" style="min-height: 280px">{{ old('content') }}</textarea>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="inputStatus">Book category</label>
-                                        <select id="inputStatus" name="category" class="form-control custom-select">
-                                            <option selected disabled>Select one</option>
-
-                                            @foreach (['Self-help', 'Detective', 'Foreign literature', 'Viet Nam literature'] as $category)
-                                                <option value="{{ $category }}">{{ $category }}</option>
-                                            @endforeach
-                                        </select>
+                                        {{-- <select id="inputStatus" name="category" class="form-control custom-select"> --}}
+                                        {{-- SELECT CATEGORY WITH SELECTBOX --}}
+                                        {{-- <option value="">Select</option>
+                                            @foreach (config('const.tables.reviews.category') as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach --}}
+                                        {{-- </select> --}}
+                                        @foreach ({{database('migration.t_categories.category')}})
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="categories[]"
+                                                    value="{{ $key }}" id="category_{{ $key }}">
+                                                <label class="form-check-label"
+                                                    for="category_{{ $key }}">{{ $value }}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                     <div class="form-group">
                                         <label for="inputClientCompany">Image</label>

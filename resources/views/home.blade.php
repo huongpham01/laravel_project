@@ -81,7 +81,6 @@
     <nav>
         <ul>
             <li><a class="active" href="#home">Home</a></li>
-            <li><a href="{{ route('review.index') }}">Reviews</a></li>
             <li><a href="{{ route('user.post.login') }}">Login</a></li>
             <li><a href="#">Contact</a></li>
         </ul>

@@ -52,12 +52,11 @@
         <ul>
             <li><a href="{{ route('home.index') }}">Home</a></li>
             <li><a href="{{ route('review.index') }}">Reviews</a></li>
-            <li><a href="{{ route('user.post.login') }}">Login</a></li>
             <li><a href="#">Contact</a></li>
             <li class="move-left">
                 <div class="card-tools">
                     <form method="GET" action="{{ route('review.index') }}">
-                        <input type="text" name="search">
+                        <input type="text" name="search" value="{{ request()->get('search') }}">
 
                         <button type="submit">Search</button>
                     </form>
@@ -86,8 +85,7 @@
                                     <th>@sortablelink('title', 'Title')</th>
                                     <th>@sortablelink('content', 'Content')</th>
                                     <th>@sortablelink('category', 'Book category')</th>
-                                    <th>@sortablelink('image', 'Image')</th>
-                                    {{-- <th>@sortablelink('created_by', 'Created by')</th> --}}
+                                    <th>Image</th>
                                     <th>@sortablelink('status', 'Status')</th>
                                     <th>Action</th>
                                 </tr>
@@ -98,16 +96,16 @@
                                         <td>{{ $review->id }}</td>
                                         <td>{{ $review->title }}</td>
                                         <td>{{ $review->content }}</td>
-                                        <td>{{ $review->category == 'default' ? 'Default' : $review->category }}</td>
+                                        <td>{{ config('const.tables.reviews.category')[$review->category] }}</td>
                                         <td>
                                             @if ($review->image)
                                                 <img src="{{ asset('storage/images/' . $review->image) }}"
-                                                    style="height: 50px;width:100px;">
+                                                    style="height: auto;width:90px;">
                                             @else
                                                 <span>No image found!</span>
                                             @endif
                                         </td>
-                                        {{-- <td>{{ $review->user_id }}</td> --}}
+                                        {{-- <td>{{ $review->review_id }}</td> --}}
                                         <td>{{ $review->status == 1 ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <!-- View Review -->
@@ -139,6 +137,45 @@
                 </div>
             </div>
         </div>
+        </nav>
+        {{-- Pagination --}}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="background-color: white">
+                {{-- Previous Page Link --}}
+                @if ($reviews->onFirstPage())
+                    <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                        <span class="page-link" aria-hidden="true">&laquo;</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $reviews->previousPageUrl() }}" rel="prev"
+                            aria-label="@lang('pagination.previous')">&laquo;</a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @for ($i = 1; $i <= $reviews->lastPage(); $i++)
+                    @if ($i == $reviews->currentPage())
+                        <li class="page-item active" aria-current="page"><span
+                                class="page-link">{{ $i }}</span></li>
+                    @else
+                        <li class="page-item"><a class="page-link"
+                                href="{{ $reviews->url($i) }}">{{ $i }}</a></li>
+                    @endif
+                @endfor
+
+                {{-- Next Page Link --}}
+                @if ($reviews->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $reviews->nextPageUrl() }}" rel="next"
+                            aria-label="@lang('pagination.next')">&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                    </li>
+                @endif
+            </ul>
         </nav>
 
 

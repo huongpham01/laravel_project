@@ -6,20 +6,28 @@ use App\Http\Requests\CreateReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use Illuminate\Http\Request;
 use App\Models\Review;
-use App\Models\User;
+use App\Services\ReviewService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    public $reviews;
+    protected $service;
+
+    public function __construct(ReviewService $userService)
+    {
+        $this->service = $userService;
+    }
+
+    // INDEX
     public function index(Request $request)
     {
-        $reviews = Review::with('user')->get();
+        $params = $request->toArray();
+        $reviews = $this->service->index($params);
         return view('reviews.index', ['reviews' => $reviews]);
     }
 
-    // CREATE review 
+    // CREATE
     public function create(Request $request)
     {
         return view('reviews.create');
@@ -27,7 +35,7 @@ class ReviewController extends Controller
 
     public function createReview(CreateReviewRequest $request)
     {
-        $user = User::all();
+        $user = Auth::user();
         $fileName = time() . '.' . $request->image->extension();
         $request->image->storeAs('public/images', $fileName);
         $reviews = new Review([
@@ -119,10 +127,11 @@ class ReviewController extends Controller
             abort(404);
         }
     }
-    public function showReview($id)
-    {
-        $review = Review::find($id);
 
-        return view('reviews.view', ['reviews' => $review]);
+    // SORT
+    public function sort(Request $request)
+    {
+        $users = Review::sortable()->paginate(10);
+        return view('reviews.index', compact('reviews'));
     }
 }

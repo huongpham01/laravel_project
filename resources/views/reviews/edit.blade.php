@@ -211,7 +211,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-9">
-                            <div class="card card-primary card-outline" style="height: 800px">
+                            <div class="card card-primary card-outline" style="min-height: 800px">
                                 <div class="card-header">
                                     <h5>Edit Review</h5>
                                 </div>
@@ -232,12 +232,12 @@
                                         <div class="form-group">
                                             <label for="title">Title:</label>
                                             <input type="text" name="title" id="title" class="form-control"
-                                                value="{{ $review->title }}">
+                                                value="{{ old('title', $review->title) }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="content">Content:</label>
-                                            <textarea name="content" id="content" class="form-control" style="height: 440px">{{ $review->content }}</textarea>
+                                            <textarea name="content" id="content" class="form-control" style="height: 440px">{{ old('content', $review->content) }}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputClientCompany">Image</label>

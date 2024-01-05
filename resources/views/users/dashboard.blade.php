@@ -3,9 +3,59 @@
 
         <head>
             @include('layout.header')
+            <style scoped>
+                ul {
+                    list-style-type: none;
+                    margin: 0 !important;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #e2d7d7;
+                }
+
+                li {
+                    float: left;
+                }
+
+                ul li a {
+                    display: block;
+                    color: black;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
+
+                ul li a:hover {
+                    background-color: #111;
+                    text-decoration: none;
+                    color: pink;
+                }
+
+                .move-left {
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
+                }
+
+                .button {
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
+                    background-color: red;
+                    color: white;
+                    border-radius: 5px;
+                }
+            </style>
         </head>
 
         <body class="hold-transition sidebar-mini">
+            <nav>
+                <ul>
+                    <li><a href="{{ route('home.index') }}">Home</a></li>
+                    <li><a href="{{ route('review.index') }}">Reviews</a></li>
+                    <li><a href="#">Contact</a></li>
+
+                </ul>
+            </nav>
             <div class="wrapper">
                 <!-- /.row -->
                 <div class="row">
@@ -41,8 +91,8 @@
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->status == 'active' ? 'Active' : 'Inactive' }}</td>
-                                                {{-- <td>{{ $user->status }}</td> --}}
+                                                {{-- <td>{{ $user->status == 'active' ? 'Active' : 'Inactive' }}</td> --}}
+                                                <td>{{ $user->status }}</td>
                                                 <td>{{ $user->created_at->format('d-m-Y') }}</td>
                                                 <td>
                                                     <!-- Edit User -->
@@ -72,7 +122,7 @@
                 </div>
                 {{-- Pagination --}}
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                    <ul class="pagination" style="background-color: white">
                         {{-- Previous Page Link --}}
                         @if ($users->onFirstPage())
                             <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

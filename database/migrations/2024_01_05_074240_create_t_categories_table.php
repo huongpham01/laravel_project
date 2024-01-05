@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Review;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,16 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('t_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignId('user_id')->constrained();
-            $table->string('title', 256);
-            $table->text('content');
-            $table->string('category');
-            $table->string('image')->nullable();
-            $table->boolean('status')->default(0); // non-display
-            $table->softDeletes();
+            $table->unsignedInteger('reviews_id');
             $table->timestamps();
+        });
+        Schema::create('t_categories', function (Blueprint $table) {
+            $table->foreign('reviews_id')->references('id')->on('reviews');
         });
     }
 
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('t_categories');
     }
 };
