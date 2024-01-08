@@ -4,24 +4,40 @@ return [
   'tables' => [
     'users' => [
       'status' => [
-        'state' => '0',
-        'actived' => '1',
+        'active' => '0',
+        'inactive' => '1',
       ],
 
       'status_names' => [
-        '0' => 'state',
-        '1' => 'actived'
+        '0' => 'active',
+        '1' => 'inactive'
       ]
     ],
     'reviews' => [
-      'category' => [
-        '0' => 'Self-help',
-        '1' => 'Detective',
-        '2' => 'Foreign literature',
-        '3' => 'Viet Name literature',
-        '4' => 'Coding',
-        '5' => 'Autobiography'
+      'category_names' => [
+        '0' => 'self_help',
+        '1' => 'detective',
+        '2' => 'foreign_literature',
+        '3' => 'vietname_literature',
+        '4' => 'coding',
+        '5' => 'autobiography'
       ],
+      'category' => [
+        'self_help' => '0',
+        'detective' => '1',
+        'foreign_literature' => '2',
+        'vietname_literature' => '3',
+        'coding' => '4',
+        'autobiography' => '5'
+      ],
+      'status' => [
+        'active' => '0',
+        'inactive' => '1',
+      ],
+      'status_names' => [
+        '0' => 'active',
+        '1' => 'inactive'
+      ]
     ]
   ],
 ];

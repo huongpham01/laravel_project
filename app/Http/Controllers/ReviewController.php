@@ -6,6 +6,8 @@ use App\Http\Requests\CreateReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Models\Category;
+
 use App\Services\ReviewService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -35,23 +37,33 @@ class ReviewController extends Controller
 
     public function createReview(CreateReviewRequest $request)
     {
+
         $user = Auth::user();
         $fileName = time() . '.' . $request->image->extension();
         $request->image->storeAs('public/images', $fileName);
-        $reviews = new Review([
+        $review = new Review([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'user_id' => $user->id,
-            'category' => $request->input('category') ?? 'default',
             'image' => $fileName,
             'status' => $request->has('status') ? 1 : 0,
         ]);
+        $review->save();
+        $categories = $request->input('category');
 
-        $reviews->save();
+        foreach ($categories as $category) {
+            // dd($category);
+            $data = new Category([
+                'review_id' => $review->id,
+                'category_id' => $category,
+            ]);
+            $data->save();
+        }
 
         Session::flash('success', 'Review created successfully.');
-        return redirect()->route('review.index', compact('user'));
+        return redirect()->route('review.index');
     }
+
     public function view(Request $request)
     {
         $review = Review::with('user')->find($request->id);

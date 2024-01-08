@@ -96,17 +96,22 @@
                                         <td>{{ $review->id }}</td>
                                         <td>{{ $review->title }}</td>
                                         <td>{{ $review->content }}</td>
-                                        <td>{{ config('const.tables.reviews.category')[$review->category] }}</td>
                                         <td>
-                                            @if ($review->image)
-                                                <img src="{{ asset('storage/images/' . $review->image) }}"
-                                                    style="height: auto;width:90px;">
-                                            @else
-                                                <span>No image found!</span>
+                                            @if (count($review->categories) !== 0)
+                                                @foreach ($review->categories as $category)
+                                                    {{ config('const.tables.reviews.category_names')[$category->category_id] }}
+                                                    <br>
+                                                @endforeach
                                             @endif
                                         </td>
+                                        @if ($review->image)
+                                            <img src="{{ asset('storage/images/' . $review->image) }}"
+                                                style="height: auto;width:90px;">
+                                        @else
+                                            <span>No image found!</span>
+                                        @endif
                                         {{-- <td>{{ $review->review_id }}</td> --}}
-                                        <td>{{ $review->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                        <td>{{ $review->status_name }}</td>
                                         <td>
                                             <!-- View Review -->
                                             <a href="{{ route('review.view', ['id' => $review->id]) }}"

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Post;
+
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {

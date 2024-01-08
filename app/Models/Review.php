@@ -10,8 +10,10 @@ class Review extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $casts = [
         'user_id' => 'integer',
+        // 'category' => 'array',
     ];
     protected $fillable = [
         'user_id', 'category', 'title', 'content', 'status', 'image'
@@ -33,8 +35,9 @@ class Review extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function t_category()
+
+    public function categories()
     {
-        return $this->hasMany(t_category::class);
+        return $this->hasMany(Category::class, 'review_id', 'id');
     }
 }

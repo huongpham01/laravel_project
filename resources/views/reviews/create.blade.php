@@ -214,14 +214,16 @@
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach --}}
                                         {{-- </select> --}}
-                                        @foreach ({{database('migration.t_categories.category')}})
+                                        @foreach (config('const.tables.reviews.category_names') as $key => $value)
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="categories[]"
-                                                    value="{{ $key }}" id="category_{{ $key }}">
+                                                <input class="form-check-input" type="checkbox" name="category[]"
+                                                    id="category_{{ $key }}" value="{{ $key }}">
+
                                                 <label class="form-check-label"
                                                     for="category_{{ $key }}">{{ $value }}</label>
                                             </div>
                                         @endforeach
+
                                     </div>
                                     <div class="form-group">
                                         <label for="inputClientCompany">Image</label>

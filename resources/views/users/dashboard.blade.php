@@ -91,8 +91,16 @@
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                {{-- <td>{{ $user->status == 'active' ? 'Active' : 'Inactive' }}</td> --}}
-                                                <td>{{ $user->status }}</td>
+                                                <td>
+                                                    {{-- @dd(config('const.tables.users.status')) --}}
+                                                    {{ config('const.tables.users.status_names')[$user->status] }}
+
+                                                    {{-- @foreach (config('const.tables.users.status_names') as $status)
+                                                        {{ $status }}
+                                                    @endforeach --}}
+
+                                                </td>
+
                                                 <td>{{ $user->created_at->format('d-m-Y') }}</td>
                                                 <td>
                                                     <!-- Edit User -->

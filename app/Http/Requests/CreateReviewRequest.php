@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateReviewRequest extends FormRequest
 {
@@ -27,7 +28,10 @@ class CreateReviewRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category' => 'required',
+            'category' => 'required|array',
+            'category.*' => [
+                Rule::in(config('const.tables.reviews.category'))
+            ],
         ];
     }
 
@@ -40,7 +44,6 @@ class CreateReviewRequest extends FormRequest
 
             'content.required' => ':attribute is required',
             'content.string' => ':attribute must be a string',
-
             'image.image' => 'The selected file must be an image',
             'image.mimes' => 'The :attribute must be a file of type: jpeg, png, jpg, gif',
             'image.max' => 'The :attribute may not be greater than 2048 kilobytes',
@@ -52,6 +55,7 @@ class CreateReviewRequest extends FormRequest
         return [
             'title' => 'Title',
             'content' => 'Content',
+            'category' => 'Category',
             'image' => 'Image'
         ];
     }
