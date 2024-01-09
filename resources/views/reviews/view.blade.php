@@ -207,71 +207,65 @@
                         <div class="col-md-9">
                             <div class="card card-primary card-outline" style="height: 700px">
                                 <div class="card-header">
-                                    <h3 class="card-title">{{ $review->title }}</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body p-0">
-                                    <!-- /.mailbox-read-info -->
-                                    <div class="mailbox-controls with-border text-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                data-container="body" title="Delete">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                data-container="body" title="Reply">
-                                                <i class="fas fa-reply"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                data-container="body" title="Forward">
-                                                <i class="fas fa-share"></i>
-                                            </button>
-                                        </div>
-                                        <!-- /.btn-group -->
-                                        <button type="button" class="btn btn-default btn-sm" title="Print">
-                                            <i class="fas fa-print"></i>
-                                        </button>
-                                    </div>
-                                    <!-- /.mailbox-controls -->
-                                    <div class="mailbox-read-message">
-                                        <label for="content">Content:</label>
-                                        <p>{{ $review->content }}</p>
-                                    </div>
-                                    <div class="mailbox-read-message">
-                                        <label for="content">Image:</label><br>
-                                        <img src="{{ asset('storage/images/' . $review->image) }}" alt="Review Image"
-                                            style="height: 300px;width:350px;">
-                                    </div>
-                                    <div class="mailbox-read-message">
-                                        <label for="content">Author:</label>
-                                        <p>{{ $review->user->name }}</p>
-                                    </div>
 
 
+                                    <h3 class="card-title"> {{ $review->title }}</h3>
+                                </div>
 
-                                    <!-- /.mailbox-read-message -->
+                                <div class="mailbox-read-message">
+                                    <label for="content">Content:</label>
+                                    <p>{{ $review->content }}</p>
                                 </div>
-                                <!-- /.card-body -->
-                                <!-- /.card-footer -->
-                                <div class="card-footer">
-                                    <div class="float-right">
-                                        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i>
-                                            Previous</button>
-                                        <button type="button" class="btn btn-default"><i class="fas fa-share"></i>
-                                            Next</button>
-                                    </div>
+                                <div class="mailbox-read-message">
+                                    <label for="content">Categories:</label><br>
+                                    @if ($review->categories->isNotEmpty())
+                                        @foreach (config('const.tables.reviews.category_names') as $key => $value)
+                                            <p class="form-check-label" for="category_{{ $key }}">
+                                                {{ $value }}</p>
+                                        @endforeach
+                                    @else
+                                        <p>No category selected</p>
+                                    @endif
                                 </div>
+
+                                <div class="mailbox-read-message">
+                                    <label for="content">Image:</label><br>
+                                    <img src="{{ asset('storage/images/' . $review->image) }}" alt="Review Image"
+                                        style="height: 300px;width:350px;">
+                                </div>
+                                <div class="mailbox-read-message">
+                                    <label for="content">Created by: </label>
+                                    <p>{{ $review->user->name }}</p>
+                                </div>
+
                             </div>
-                            <!-- /.card-footer -->
+
+
+
+
+                            <!-- /.mailbox-read-message -->
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
+                        <!-- /.card-footer -->
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i>
+                                    Previous</button>
+                                <button type="button" class="btn btn-default"><i class="fas fa-share"></i>
+                                    Next</button>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.col -->
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+                <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
     </div>
 
     <!-- Control Sidebar -->

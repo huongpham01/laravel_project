@@ -74,16 +74,16 @@ class ReviewController extends Controller
 
     public function imageUploadPost(Request $request)
     {
+        // GENERATE FILE NAME
+        $fileName = time() . '.' . $request->image->extension();
 
-        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $fileName);
 
-        $request->image->move(public_path('images'), $imageName);
-
-        /* Store $imageName name in DATABASE from HERE */
+        /* Store $fileName name in DATABASE from HERE */
 
         return back()
             ->with('success', 'You have successfully upload image.')
-            ->with('image', $imageName);
+            ->with('image', $fileName);
     }
     // EDIT 
     public function edit(Request $request, $id)
@@ -96,34 +96,40 @@ class ReviewController extends Controller
     public function update(UpdateReviewRequest $request, $id)
     {
         $review = Review::find($id);
-
+        $review->update($request->all());
         if (!$review) {
             abort(404);
         }
-
-        // Check if a new image is provided in the request
+        // Check if a new image is uploaded
         if ($request->hasFile('image')) {
             $fileName = time() . '.' . $request->image->extension();
-
-            // Store the uploaded image in the 'public/images' directory
             $request->image->storeAs('public/images', $fileName);
-
             // Update the review with the new image
-            $review->update([
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'image' => $fileName,
-            ]);
-        } else {
-            // Update the review without changing the image
-            $review->update([
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-            ]);
+            $review->update(['image' => $fileName]);
         }
 
+        $review->update([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
 
-        return redirect()->route('review.view', ['id' => $review->id])->with('success', 'Review with id = ' . $review->id . ' was updated successfully!');
+        // Update or create categories
+        $categories = $request->input('category');
+        // Soft delete old value to get new value of category
+        $review->categories()->delete();
+        // Physical delete
+        // $review->categories()->forceDelete();
+
+        foreach ($categories as $category) {
+            // dd($category);
+            $data = new Category([
+                'review_id' => $review->id,
+                'category_id' => $category,
+            ]);
+            $data->save();
+        }
+
+        return redirect()->route('review.index', ['id' => $review->id])->with('success', 'Review with id = ' . $review->id . ' was updated successfully!');
     }
 
 

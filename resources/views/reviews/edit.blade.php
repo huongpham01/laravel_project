@@ -240,6 +240,27 @@
                                             <textarea name="content" id="content" class="form-control" style="height: 440px">{{ old('content', $review->content) }}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label for="inputStatus">Book category</label>
+                                            @php
+                                                $categories = $review->categories()->get()
+                                                    ->pluck('category_id')
+                                                    ->all();
+                                                $oldValue = collect(old('category', collect($categories)));
+
+                                                // dd($categories, $categories);
+
+                                            @endphp
+                                            @foreach (config('const.tables.reviews.category_names') as $key => $value)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="category[]"
+                                                        id="category_{{ $key }}" value="{{ $key }}"
+                                                        @if ($oldValue->contains($key)) checked @endif>
+                                                    <label class="form-check-label"
+                                                        for="category_{{ $key }}">{{ $value }}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="form-group">
                                             <label for="inputClientCompany">Image</label>
                                             <input type="file" name="image" @error('image') is-invalid @enderror
                                                 id="inputClientCompany" class="form-control">

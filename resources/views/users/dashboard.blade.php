@@ -53,6 +53,9 @@
                     <li><a href="{{ route('home.index') }}">Home</a></li>
                     <li><a href="{{ route('review.index') }}">Reviews</a></li>
                     <li><a href="#">Contact</a></li>
+                    <li style="position: absolute; right: 0;">
+                        <a href="{{ route('user.get.logout') }}">Logout</a>
+                    </li>
 
                 </ul>
             </nav>
@@ -93,11 +96,14 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>
                                                     {{-- @dd(config('const.tables.users.status')) --}}
-                                                    {{ config('const.tables.users.status_names')[$user->status] }}
+                                                    {{-- {{ config('const.tables.users.status_names')[$user->status] }} --}}
 
-                                                    {{-- @foreach (config('const.tables.users.status_names') as $status)
-                                                        {{ $status }}
-                                                    @endforeach --}}
+                                                    @if ($user->status !== null)
+                                                        {{ config('const.tables.users.status_names')[$user->status] }}
+                                                    @else
+                                                        Unknown Status
+                                                    @endif
+
 
                                                 </td>
 

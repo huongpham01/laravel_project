@@ -207,6 +207,16 @@
 
                                     <div class="form-group">
                                         <label for="inputStatus">Book category</label>
+                                        @foreach (config('const.tables.reviews.category_names') as $key => $value)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="category[]"
+                                                    id="category_{{ $key }}" value="{{ $key }}"
+                                                    @if (collect(old('category'))->contains($key)) checked @endif>
+
+                                                <label class="form-check-label"
+                                                    for="category_{{ $key }}">{{ $value }}</label>
+                                            </div>
+                                        @endforeach
                                         {{-- <select id="inputStatus" name="category" class="form-control custom-select"> --}}
                                         {{-- SELECT CATEGORY WITH SELECTBOX --}}
                                         {{-- <option value="">Select</option>
@@ -214,15 +224,7 @@
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach --}}
                                         {{-- </select> --}}
-                                        @foreach (config('const.tables.reviews.category_names') as $key => $value)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="category[]"
-                                                    id="category_{{ $key }}" value="{{ $key }}">
 
-                                                <label class="form-check-label"
-                                                    for="category_{{ $key }}">{{ $value }}</label>
-                                            </div>
-                                        @endforeach
 
                                     </div>
                                     <div class="form-group">

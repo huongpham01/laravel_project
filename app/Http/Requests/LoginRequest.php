@@ -25,8 +25,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
-            'password' => 'required|max:7'
+            'email' => 'required|email',
+            'password' => 'required'
         ];
     }
 
@@ -35,7 +35,6 @@ class LoginRequest extends FormRequest
         return [
             'email.required' => ':attribute is empty',
             'password.required' => ':attribute is empty',
-            'password.max' => ':attribute is longer than 7 characters'
         ];
     }
 

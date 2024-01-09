@@ -13,7 +13,7 @@ class Review extends Model
 
     protected $casts = [
         'user_id' => 'integer',
-        // 'category' => 'array',
+        'category' => 'array',
     ];
     protected $fillable = [
         'user_id', 'category', 'title', 'content', 'status', 'image'

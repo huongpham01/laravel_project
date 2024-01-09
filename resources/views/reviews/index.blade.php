@@ -104,14 +104,18 @@
                                                 @endforeach
                                             @endif
                                         </td>
-                                        @if ($review->image)
-                                            <img src="{{ asset('storage/images/' . $review->image) }}"
-                                                style="height: auto;width:90px;">
-                                        @else
-                                            <span>No image found!</span>
-                                        @endif
+                                        <td>
+                                            @if ($review->image)
+                                                {{--  return asset(Storage::url(/images/ . $review->image)); --}}
+                                                <img src="{{ asset('storage/images/' . $review->image) }}"
+                                                    style="height: auto;width:90px;">
+                                            @else
+                                                <span>No image found!</span>
+                                            @endif
+                                        </td>
+
                                         {{-- <td>{{ $review->review_id }}</td> --}}
-                                        <td>{{ $review->status_name }}</td>
+                                        <td>{{ config('const.tables.reviews.status_names')[$review->status] }}</td>
                                         <td>
                                             <!-- View Review -->
                                             <a href="{{ route('review.view', ['id' => $review->id]) }}"

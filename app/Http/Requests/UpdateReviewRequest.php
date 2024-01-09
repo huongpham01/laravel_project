@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateReviewRequest extends FormRequest
 {
@@ -24,8 +25,13 @@ class UpdateReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:2',
             'content' => 'required|string',
+            // 'category' => 'required',
+            'category' => 'required|array',
+            'category.*' => [
+                Rule::in(config('const.tables.reviews.category'))
+            ],
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
