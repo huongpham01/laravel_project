@@ -56,7 +56,7 @@
             <li><a href="{{ route('user.get.logout') }}">Logout</a></li>
             <li class="move-left">
                 <div class="card-tools">
-                    <form method="GET" action="{{ route('review.index') }}">
+                    <form method="GET" action="{{ route('user.index') }}">
                         <input type="text" name="search" value="{{ request()->get('search') }}">
                         <button type="submit">Search</button>
                     </form>
