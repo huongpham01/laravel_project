@@ -20,8 +20,8 @@ class UserController extends Controller
     {
         $params = $request->toArray();
         $users = $this->service->index($params);
-        return view('users.dashboard', compact('users'));
-        // return view('auth.users.dashboard', ['users' => $users];
+        return view('users.index', compact('users'));
+        // return view('auth.users.index', ['users' => $users];
     }
 
     // EDIT name, email
@@ -33,7 +33,7 @@ class UserController extends Controller
             abort(404);
         }
 
-        return view('users.edit', compact('user'));
+        return view('users.form', compact('user'));
     }
 
     // UPDATE infor user after edit

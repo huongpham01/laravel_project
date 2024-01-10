@@ -32,7 +32,8 @@ class ReviewController extends Controller
     // CREATE
     public function create(Request $request)
     {
-        return view('reviews.create');
+
+        return view('reviews.form');
     }
 
     public function createReview(CreateReviewRequest $request)
@@ -50,6 +51,7 @@ class ReviewController extends Controller
         ]);
         $review->save();
         $categories = $request->input('category');
+
 
         foreach ($categories as $category) {
             // dd($category);
@@ -89,14 +91,14 @@ class ReviewController extends Controller
     public function edit(Request $request, $id)
     {
         $review = Review::find($id);
-        return view('reviews.edit', compact('review'));
+        return view('reviews.form', compact('review'));
     }
 
     // UPDATE 
     public function update(UpdateReviewRequest $request, $id)
     {
         $review = Review::find($id);
-        $review->update($request->all());
+        // $review->update($request->all());
         if (!$review) {
             abort(404);
         }
@@ -149,7 +151,7 @@ class ReviewController extends Controller
     // SORT
     public function sort(Request $request)
     {
-        $users = Review::sortable()->paginate(10);
+        $reviews = Review::sortable()->paginate(10);
         return view('reviews.index', compact('reviews'));
     }
 }

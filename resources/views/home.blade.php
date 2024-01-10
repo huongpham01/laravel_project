@@ -82,7 +82,6 @@
         <ul>
             <li><a class="active" href="#home">Home</a></li>
             <li><a href="{{ route('user.post.login') }}">Login</a></li>
-            <li><a href="#">Contact</a></li>
             <li style="position: absolute; right: 0;">
                 <a href="{{ route('user.get.logout') }}">Logout</a>
             </li>

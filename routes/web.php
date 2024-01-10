@@ -17,7 +17,7 @@ Route::prefix('users')
     Route::get('/login', [AuthController::class, 'login'])->name('get.login');
     Route::post('/login', [AuthController::class, 'loginUser'])->name('post.login');
     //REGISTER
-    Route::get('/register', [AuthController::class, 'registation'])->name('get.register');
+    Route::get('/register', [AuthController::class, 'register'])->name('get.register');
     Route::post('/register', [AuthController::class, 'registerUser'])->name('post.register');
 
     Route::middleware(['auth'])->group(function () {
@@ -53,7 +53,6 @@ Route::prefix('reviews')
       Route::get('/{id}/view', [ReviewController::class, 'view'])->name('view');
       Route::get('/{id}/edit', [ReviewController::class, 'edit'])->name('edit');
       Route::put('/{id}/update', [ReviewController::class, 'update'])->name('update');
-      // Route::post('/{id}/update', [ReviewController::class, 'update'])->name('update');
       Route::delete('/{id}', [ReviewController::class, 'delete'])->name('delete');
     });
   });

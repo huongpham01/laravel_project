@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -17,9 +18,7 @@ class AuthController extends Controller
     // get login form
     public function login()
     {
-        return view('auth.login', [
-            'title' => 'Login'
-        ]);
+        return view('auth.login');
     }
 
     // post login
@@ -27,27 +26,23 @@ class AuthController extends Controller
     {
         // User login before, return text
         if (Auth::check() || Auth::viaRemember()) {
-            // return view('auth.users.dashboard');
-            return $this->redirectToDashboard();
+            return $this->redirectToIndex();
         }
         //Check infor user login
         if (Auth::attempt([
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ], $request->input('remember'))) {
-            // return view('auth.users.dashboard');
-            return $this->redirectToDashboard();
+            return $this->redirectToIndex();
         }
         //When infor user import equal in DB
         Session::flash('success', 'Login failed. Please check your credentials.');
         return redirect()->back();
     }
-
-    public function registation()
+    // Sign up
+    public function register()
     {
-        return view('auth.registation', [
-            'title' => 'Registation'
-        ]);
+        return view('auth.register');
     }
 
 
@@ -60,11 +55,11 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             Auth::login($user);
-
-            return $this->redirectToDashboard();
+            return $this->redirectToIndex()->with('success', 'Sign up successful! Welcome, ' . $user->name . '!');
         } catch (\Exception $e) {
             // Log the error or handle it appropriately
-            return redirect()->back()->withErrors(['message' => 'Registration failed. Please try again.']);
+            Log::error('User registration failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['message' => 'Sign up failed. Please try again.']);
         }
     }
 
@@ -75,7 +70,7 @@ class AuthController extends Controller
         return redirect()->route('user.get.login');
     }
 
-    protected function redirectToDashboard()
+    protected function redirectToIndex()
     {
         return redirect()->route('user.index');
     }

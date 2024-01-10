@@ -25,9 +25,8 @@ class UpdateReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:2',
+            'title' => 'required|string|max:225',
             'content' => 'required|string',
-            // 'category' => 'required',
             'category' => 'required|array',
             'category.*' => [
                 Rule::in(config('const.tables.reviews.category'))

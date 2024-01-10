@@ -43,6 +43,7 @@ class RegisterRequest extends FormRequest
     public function attributes()
     {
         return [
+            'name' => 'Name',
             'email' => 'Email',
             'password' => 'Password'
         ];
