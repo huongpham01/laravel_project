@@ -24,6 +24,7 @@ class UserService
           ->orWhere('name', 'like', '%' . $search . '%');
       });
     }
+
     $query->orderBy($sort, $direction);
 
     // Get paginated results

@@ -40,20 +40,20 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Title:</strong>
+                <strong>Title</strong>
                 <input type="text" name="title" value="{{ old('title', $review->title ?? '') }}" class="form-control"
                     placeholder="Title">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Content:</strong>
+                <strong>Content</strong>
                 <textarea class="form-control" style="min-height: 250px" name="content" placeholder="Content">{{ old('content', $review->content ?? '') }}</textarea>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label for="inputStatus">Book category</label>
+                <strong>Book category</strong>
                 @php
                     if (isset($review)) {
                         $categories = $review
@@ -79,7 +79,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label for="inputClientCompany">Image</label>
+                <strong>Image</strong>
                 <input type="file" name="image" @error('image') is-invalid @enderror id="inputClientCompany"
                     class="form-control">
                 @error('image')
@@ -90,7 +90,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px">Save</button>
         </div>
     </div>
 

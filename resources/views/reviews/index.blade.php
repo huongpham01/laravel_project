@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Review List</h2>
+                <h1 style="text-align: center; margin: 20px 0">Review List</h1>
             </div>
             <div class="pull-right">
                 <a class="btn btn-success" style="margin: 10px 0 " href="{{ route('review.get.create') }}"> Create New
@@ -20,7 +20,7 @@
     @endif
 
     <table class="table table-bordered">
-        <tr>
+        <tr style="text-align: center; vertical-align: middle;">
             <th>@sortablelink('id', 'ID')</th>
             <th>@sortablelink('title', 'Title')</th>
             <th>@sortablelink('content', 'Content')</th>
@@ -30,7 +30,7 @@
             <th>Action</th>
         </tr>
         @foreach ($reviews as $review)
-            <tr>
+            <tr style="text-align: center; vertical-align: middle;">
                 <td>{{ $review->id }}</td>
                 <td>{{ $review->title }}</td>
                 <td>{{ $review->content }}</td>
@@ -77,7 +77,7 @@
     </table>
     {{-- Pagination --}}
     <nav aria-label="Page navigation example">
-        <ul class="pagination" style="background-color: white; display: flex; justify-content: center">
+        <ul class="pagination" style="background-color: white; display: flex; justify-content: center;">
             {{-- Previous Page Link --}}
             @if ($reviews->onFirstPage())
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

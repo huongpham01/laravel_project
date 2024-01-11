@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>User List</h2>
+                <h1 style="text-align: center; margin: 20px 0">User List</h1>
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
     @endif
 
     <table class="table table-bordered">
-        <tr>
+        <tr style="text-align: center; vertical-align: middle;">
 
             <th>@sortablelink('id', 'ID')</th>
             <th>@sortablelink('name', 'Name')</th>
@@ -26,7 +26,7 @@
             <th>Action</th>
         </tr>
         @foreach ($users as $user)
-            <tr>
+            <tr style="text-align: center; vertical-align: middle;">
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
