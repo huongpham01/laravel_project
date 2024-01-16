@@ -29,6 +29,9 @@ Route::prefix('users')
       Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
       //Update user after edit
       Route::put('/{id}', [UserController::class, 'update'])->name('update');
+      // Add a new route for duplicating the user table
+      Route::get('/{id}/copy', [UserController::class, 'duplicate'])->name('get.duplicate');
+      Route::post('/{id}', [UserController::class, 'duplicateUser'])->name('post.duplicate');
 
       // Delete user route
       Route::delete('/{id}', [UserController::class, 'delete'])->name('delete');
@@ -53,6 +56,9 @@ Route::prefix('reviews')
       Route::get('/{id}/view', [ReviewController::class, 'view'])->name('view');
       Route::get('/{id}/edit', [ReviewController::class, 'edit'])->name('edit');
       Route::put('/{id}/update', [ReviewController::class, 'update'])->name('update');
+      // DUPLICATE
+      Route::get('/{id}/copy', [ReviewController::class, 'duplicate'])->name('get.duplicate');
+      Route::post('/{id}', [ReviewController::class, 'duplicateReview'])->name('post.duplicate');
       Route::delete('/{id}', [ReviewController::class, 'delete'])->name('delete');
     });
   });

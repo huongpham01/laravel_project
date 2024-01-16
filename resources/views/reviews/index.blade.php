@@ -54,23 +54,33 @@
                 {{-- <td>{{ $review->review_id }}</td> --}}
                 <td>{{ config('const.tables.reviews.status_names')[$review->status] }}</td>
                 <td>
-                    <!-- View Review -->
-                    <a href="{{ route('review.view', ['id' => $review->id]) }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-eye"></i> View
-                    </a>
-                    <!-- Edit Review -->
-                    <a href="{{ route('review.edit', ['id' => $review->id]) }}" class="btn btn-sm btn-info">
-                        <i class="fas fa-edit"></i> Edit
-                    </a>
-                    <!-- Delete -->
-                    <form action="{{ route('review.delete', ['id' => $review->id]) }}" method="post"
-                        style="display:inline;">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </form>
+                    <div class="d-flex flex-row justify-content-around" style="margin-bottom: 10px">
+                        <!-- View Review -->
+                        <a href="{{ route('review.view', ['id' => $review->id]) }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <!-- Copy Review -->
+                        <a href="{{ route('review.get.duplicate', ['id' => $review->id]) }}" class="btn btn-sm btn-primary"
+                            style="background-color: orange; ">
+                            <i class="fas fa-eye"></i> Copy
+                        </a>
+                    </div>
+                    <div class="d-flex flex-row justify-content-around">
+                        <!-- Edit Review -->
+                        <a href="{{ route('review.edit', ['id' => $review->id]) }}" class="btn btn-sm btn-info">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <!-- Delete -->
+                        <form action="{{ route('review.delete', ['id' => $review->id]) }}" method="post"
+                            style="display:inline;">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+
                 </td>
             </tr>
         @endforeach

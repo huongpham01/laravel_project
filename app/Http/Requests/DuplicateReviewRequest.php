@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateReviewRequest extends FormRequest
+class DuplicateReviewRequest extends FormRequest
 {
     /**
-     * Determine if the review is authorized to make this request.
+     * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
@@ -41,6 +41,7 @@ class CreateReviewRequest extends FormRequest
             'title.required' => ':attribute is required',
             'title.string' => ':attribute must be a string',
             'title.max' => ':attribute cannot be longer than 255 characters',
+
             'content.required' => ':attribute is required',
             'content.string' => ':attribute must be a string',
             'image.image' => 'The selected file must be an image',

@@ -44,9 +44,9 @@
                 <td>{{ $user->created_at->format('d-m-Y') }}</td>
                 <td>
                     <!-- View user -->
-                    {{-- <a href="{{ route('user.view', ['id' => $user->id]) }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-eye"></i> View
-                    </a> --}}
+                    <a href="{{ route('user.get.duplicate', ['id' => $user->id]) }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-eye"></i> Copy
+                    </a>
                     <!-- Edit user -->
                     <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="btn btn-sm btn-info">
                         <i class="fas fa-edit"></i> Edit

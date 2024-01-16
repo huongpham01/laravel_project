@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class DuplicateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +24,23 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required'
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|email|unique:users',
         ];
     }
-
     public function messages()
     {
         return [
-            'email.required' => ':attribute is empty',
-            'password.required' => ':attribute is empty',
+            'name.unique' => ':attribute is existed. Please input again! ',
+            'email.unique' => ':attribute is existed. Please input again!',
         ];
     }
 
     public function attributes()
     {
         return [
-            'email' => 'Email',
-            'password' => 'Password'
+            'name' => 'Name',
+            'email' => 'Email'
         ];
     }
 }

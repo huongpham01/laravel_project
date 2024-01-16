@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateReviewRequest;
+use App\Http\Requests\DuplicateReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use Illuminate\Http\Request;
 use App\Models\Review;
@@ -38,7 +39,6 @@ class ReviewController extends Controller
 
     public function createReview(CreateReviewRequest $request)
     {
-
         $user = Auth::user();
         $fileName = time() . '.' . $request->image->extension();
         $request->image->storeAs('public/images', $fileName);
@@ -54,7 +54,6 @@ class ReviewController extends Controller
 
 
         foreach ($categories as $category) {
-            // dd($category);
             $data = new Category([
                 'review_id' => $review->id,
                 'category_id' => $category,
@@ -123,7 +122,6 @@ class ReviewController extends Controller
         // $review->categories()->forceDelete();
 
         foreach ($categories as $category) {
-            // dd($category);
             $data = new Category([
                 'review_id' => $review->id,
                 'category_id' => $category,
@@ -145,6 +143,55 @@ class ReviewController extends Controller
             return redirect()->route('review.index')->with('success', 'Review with id = ' . $review->id . ' was deleted successfully!');
         } else {
             abort(404);
+        }
+    }
+
+    // Get DUPLICATE review
+    public function duplicate(Request $request, $id)
+    {
+        $review = Review::find($id);
+        // Check if the review exists
+        if (!$review) {
+            abort(404);
+        }
+
+        return view('reviews.copy', compact('review'));
+    }
+
+    // Post DUPLICATE review
+    public function duplicateReview(DuplicateReviewRequest $request, $id)
+    {
+        $review = Review::find($id);
+        if ($request->hasFile('image')) {
+            $fileName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/images', $fileName);
+            // Update the review with the new image
+            $review->duplicateReview(['image' => $fileName]);
+        }
+
+        if ($review) {
+            // Duplicate the review
+            $newReview = $review->replicate();
+            $newReview->title = $request->input('title');
+            $newReview->created_at = now();
+            $newReview->updated_at = now();
+
+            $newReview->save();
+            $categories = $request->input('category');
+            foreach ($categories as $category) {
+                $data = new Category([
+                    'review_id' => $newReview->id,
+                    'category_id' => $category,
+                ]);
+                $data->save();
+            }
+
+            // Save the duplicated Review 
+            $newReview->save();
+
+            return redirect()->route('review.index')->with('success', 'Review duplicated successfully');
+        } else {
+            return redirect()->route('review.index')->with('error', 'Copy again!');
         }
     }
 
